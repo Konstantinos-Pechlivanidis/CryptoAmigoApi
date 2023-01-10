@@ -26,8 +26,8 @@ app.use(express.json());
 app.use(cors());
 
 // swagger middleware
-app.use("./", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-// http://localhost:4000/
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// http://localhost:4000/api-docs/
 
 // Rate Limit Middleware
 // stop users from spamming my endpoints
