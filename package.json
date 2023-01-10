@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/kwstaspexli/crypto-amigo-api/issues"
   },
-  "homepage": "https://crypto-amigo.onrender.com",
+  "homepage": "https://crypto-amigo-api.onrender.com",
   "dependencies": {
     "apicache": "^1.6.3",
     "axios": "^0.27.2",
