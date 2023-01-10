@@ -1,5 +1,5 @@
 {
-  "name": "complete-mongodb",
+  "name": "crypto-amigo-api",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kwstaspexli/Crypto-Amigo.git"
+    "url": "git+https://github.com/kwstaspexli/crypto-amigo-api.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kwstaspexli/Crypto-Amigo/issues"
+    "url": "https://github.com/kwstaspexli/crypto-amigo-api/issues"
   },
-  "homepage": "https://github.com/kwstaspexli/Crypto-Amigo#readme",
+  "homepage": "https://crypto-amigo.onrender.com",
   "dependencies": {
     "apicache": "^1.6.3",
     "axios": "^0.27.2",
