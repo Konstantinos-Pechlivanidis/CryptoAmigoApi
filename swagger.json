@@ -1,0 +1,464 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description":
+    "<h2> API for the Development of an Online Cryptocurrency Monitoring Application powered by CoinGecko</h2> <h2> Authorization</h2>An access token has to be obtained by using endpoint POST /login or POST /signup first before using any other endpoint.<br/>The received access token has to be used in all the other endpoints in the headers of the requests.<br/>To run the API endpoints click on the Authorize Button and paste your token by adding Bearer first.<br/>Eg. Authorization: Bearer {{access_token}}<br/>Please, don't use login per request. Login and use the same token in the requests till the access token expires.<br/> <h2> API Support </h2>",
+    "version": "3.0.0",
+    "title": "CryptoAmigo Web Application API",
+    "contact": {
+      "name": "Konstantinos Pechlivanidis",
+      "email": "kwstaspexli77@yahoo.com",
+      "url": "https://kwstaspexli.github.io/kwstas.pexli/"
+    }
+  },
+  "host": "localhost:4000",
+  "basePath": "/api",
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "scheme": "bearer",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": { "type": "http", "scheme": "bearer" }
+    }
+  },
+  "security": {
+    "BearerAuth": []
+  },
+
+  "paths": {
+    "/coins/": {
+      "get": {
+        "tags": ["coins"],
+        "summary": "List all supported coins price, market cap, volume, and market related data",
+        "description": "Use this to obtain all the coins market data (price, market cap, volume)",
+        "produces": ["application/json"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page through results",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "description": "select currency",
+            "required": false,
+            "type": "string",
+            "enum": [ "eur", "usd", "gbp","jpy","aud","cad"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List all coins with market data"
+          }
+        }
+      }
+    },
+
+    "/coins/{id}": {
+      "get": {
+        "tags": ["coins"],
+        "summary": "Get current data (name, price, market, ... including exchange tickers) for a coin",
+        "description": "Use this to obtain all the market data (price, market cap, volume) for a coin.",
+        "produces": ["application/json"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "pass the coin id (can be obtained from /coins) eg. bitcoin",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get current data for a coin"
+          }
+        }
+      }
+    },
+
+    "/coins/{id}/market_chart": {
+      "get": {
+        "tags": ["coins"],
+        "summary": "Get historical market data include price, market cap, and 24h volume (granularity auto)",
+        "description": "Get historical market data include price, market cap, and 24h volume (granularity auto)\n <b><ul><li>Data granularity is automatic (cannot be adjusted)</li><li>1 day from current time = 5 minute interval data</li><li>1 - 90 days from current time = hourly data</li><li>above 90 days from current time = daily data (00:00 UTC)</li></ul> </b>",
+        "produces": ["application/json"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "pass the coin id (can be obtained from /coins) eg. bitcoin",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "days",
+            "in": "query",
+            "description": "Data up to number of days ago (eg. 1,14,30,max)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "description": "select currency",
+            "required": true,
+            "type": "string",
+            "enum": [ "eur", "usd", "gbp","jpy","aud","cad"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get historical market data include price, market cap, and 24h volume"
+          }
+        }
+      }
+    },
+
+    "/coins/search_coin": {
+      "get": {
+        "tags": ["coins"],
+        "summary": "Search for coins on CoinGecko",
+        "description": "Search for coins listed on CoinGecko ordered by largest Market Cap first",
+        "produces": ["application/json"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Search string",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "description": "select currency",
+            "required": false,
+            "type": "string",
+            "enum": [ "eur", "usd", "gbp","jpy","aud","cad"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get searched market data include price, market cap, and 24h volume"
+          }
+        }
+      }
+    },
+
+    "/coins/trending": {
+      "get": {
+        "tags": ["coins"],
+        "summary": "Get trending search coins (Top-7) on CoinGecko in the last 24 hours",
+        "description": "Top-7 trending coins on CoinGecko as searched by users in the last 24 hours (Ordered by most popular first)",
+        "produces": ["application/json"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "currency",
+            "in": "query",
+            "description": "select currency",
+            "required": false,
+            "type": "string",
+            "enum": [ "eur", "usd", "gbp","jpy","aud","cad"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List trending coins by most popular first"
+          }
+        }
+      }
+    },
+
+    "/exchanges": {
+      "get": {
+        "tags": ["exchanges"],
+        "summary": "List all exchanges (Active with trading volumes)",
+        "description": "List all exchanges",
+        "produces": ["application/json"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page through results",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List all exchanges"
+          }
+        }
+      }
+    },
+
+    "/exchanges/{id}": {
+      "get": {
+        "tags": ["exchanges"],
+        "summary": "Get exchange volume in BTC and top 100 tickers only",
+        "description": "Get exchange volume in BTC and tickers",
+        "produces": ["application/json"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "pass the exchange id (can be obtained from /exchanges/list) eg. binance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get exchange volume in BTC and top 100 tickers"
+          }
+        }
+      }
+    },
+
+    "/exchanges/search_exchange": {
+      "get": {
+        "tags": ["exchanges"],
+        "summary": "Search for exchanges on CoinGecko",
+        "description": "Search for exchanges listed on CoinGecko ordered by the most trust score rate first",
+        "produces": ["application/json"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Search string",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get searched market data include price, market cap, and 24h volume"
+          }
+        }
+      }
+    },
+
+    "/watchlist/get_watchlist": {
+      "get": {
+        "tags": ["watchlist"],
+        "summary": "List all coins from watchlist",
+        "description": "List all coins from your watchlist",
+        "produces": ["application/json"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "currency",
+            "in": "query",
+            "description": "select currency",
+            "required": false,
+            "type": "string",
+            "enum": [ "eur", "usd", "gbp","jpy","aud","cad"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List all coins from your watchlist"
+          }
+        }
+      }
+    },
+    "/watchlist/post_watchlist": {
+      "post": {
+        "tags": ["watchlist"],
+        "summary": "Add coins to watchlist",
+        "description": "Add the coin you want to your watchlist",
+        "produces": ["application/json"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "body",
+            "description": "pass the coin id (can be obtained from /coins) eg. bitcoin",
+            "required": true,
+            "type": "string",
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "required": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Add the coin to your watchlist"
+          }
+        }
+      }
+    },
+
+    "/watchlist/delete_watchlist/{id}": {
+      "delete": {
+        "tags": ["watchlist"],
+        "summary": "Remove coins from watchlist",
+        "description": "Remove the coin you want from your watchlist",
+        "produces": ["application/json"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "pass the coin id (can be obtained from /coins) eg. bitcoin",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Remove coin from your watchlist"
+          }
+        }
+      }
+    },
+
+    "/user/login": {
+      "post": {
+        "tags": ["User"],
+        "summary": "User log in",
+        "description": "Login in using your email and password",
+        "produces": ["application/json"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Credentials",
+            "in": "body",
+            "description": "Add your credentials",
+            "schema": {
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "uniqueItems": true,
+                  "required": true,
+                  "description": "Add your email"
+                },
+                "password": {
+                  "type": "string",
+                  "format": "password",
+                  "required": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User Log In"
+          }
+        }
+      }
+    },
+
+    "/user/signup": {
+      "post": {
+        "tags": ["User"],
+        "summary": "User Sign Up",
+        "description": "Sign Up in using your email and password",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Credentials",
+            "in": "body",
+            "description": "Add your credentials",
+            "schema": {
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "uniqueItems": true,
+                  "required": true,
+                  "description": "Add your email"
+                },
+                "password": {
+                  "type": "string",
+                  "format": "password",
+                  "required": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User Sign Up"
+          }
+        }
+      }
+    }
+  }
+}

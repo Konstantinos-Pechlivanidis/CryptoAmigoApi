@@ -1,0 +1,38 @@
+{
+  "name": "complete-mongodb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kwstaspexli/Crypto-Amigo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kwstaspexli/Crypto-Amigo/issues"
+  },
+  "homepage": "https://github.com/kwstaspexli/Crypto-Amigo#readme",
+  "dependencies": {
+    "apicache": "^1.6.3",
+    "axios": "^0.27.2",
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.17.3",
+    "express-rate-limit": "^6.5.2",
+    "express-slow-down": "^1.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.4.1",
+    "mongoose": "^6.5.2",
+    "node-schedule": "^2.1.0",
+    "swagger-jsdoc": "^6.2.5",
+    "swagger-ui-express": "^4.5.0",
+    "validator": "^13.7.0"
+  }
+}
